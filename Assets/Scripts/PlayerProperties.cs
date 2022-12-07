@@ -20,7 +20,7 @@ public class PlayerProperties : MonoBehaviour
     void Start()
     {
         //health = baseHealth + PlayerPrefs.GetInt(gameObject.tag + "_health");
-        speed = 1 + (baseSpeed * (PlayerPrefs.GetInt(gameObject.tag + "speed") / 20f));
+        speed = baseSpeed * (1 + (PlayerPrefs.GetInt(gameObject.tag + "_speed") / 20f));
         attack = baseAttack + PlayerPrefs.GetInt(gameObject.tag + "_attack");
         defense = baseDefense + PlayerPrefs.GetInt(gameObject.tag + "_defense");
     }

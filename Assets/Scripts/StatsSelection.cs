@@ -34,25 +34,11 @@ public class StatsSelection : MonoBehaviour
     [SerializeField] TextMeshProUGUI c2_defenseValueText;
     [SerializeField] Slider c2_defenseSlider;
 
-    string[] stats = {"speed", "attack", "defense"};
-
-    Dictionary<string, int> p1Abilities;
-    Dictionary<string, int> p2Abilities;
-
-    bool doneSelecting = false;
-
     // Start is called before the first frame update
     void Start()
     {
         abilityPoolText.text = "Points Left: " + abilityPool;
 
-        p1Abilities = new Dictionary<string, int>();
-        p2Abilities = new Dictionary<string, int>();
-
-        for (int i = 0; i < stats.Length; i++) {
-            p1Abilities[stats[i]] = -1;
-            p2Abilities[stats[i]] = -1;
-        }
     }
 
     // Update is called once per frame
@@ -69,34 +55,6 @@ public class StatsSelection : MonoBehaviour
         int pointsLeft = (int)(abilityPool - (c1_speedSlider.value + c1_attackSlider.value + c1_defenseSlider.value + c2_speedSlider.value + c2_attackSlider.value + c2_defenseSlider.value));
 
         abilityPoolText.text = "Points Left: " + pointsLeft;
-
-        if (doneSelecting) {
-            // TODO: Check if pool requirement is met
-            Debug.Log("Points distribution done");
-            //Random rand = new Random();
-            float p = Random.Range(0f, 1f);
-
-            // Player gets first character
-            if (p < 0.5f) {
-                //player.GetComponent<PlayerProperties>().setPlayerProperties(p1Abilities);
-                //enemy.GetComponent<PlayerProperties>().setPlayerProperties(p2Abilities);
-
-                for (int i = 0; i < stats.Length; i++) {
-                    PlayerPrefs.SetInt("player_" + stats[i], p1Abilities[stats[i]]);
-                    PlayerPrefs.SetInt("enemy_" + stats[i], p2Abilities[stats[i]]);
-                }
-                
-            } else { // Player gets second character
-                //player.GetComponent<PlayerProperties>().setPlayerProperties(p2Abilities);
-                //enemy.GetComponent<PlayerProperties>().setPlayerProperties(p1Abilities);
-
-                for (int i = 0; i < stats.Length; i++) {
-                    PlayerPrefs.SetInt("player_" + stats[i], p2Abilities[stats[i]]);
-                    PlayerPrefs.SetInt("enemy_" + stats[i], p1Abilities[stats[i]]);
-                }
-            }
-            doneSelecting = false;
-        }
     }
 
     public void nextButtonClicked() {
@@ -112,8 +70,37 @@ public class StatsSelection : MonoBehaviour
     public void doneButtonClicked() {
         Debug.Log("Done Button Clicked");
         int pointsLeft = (int)(abilityPool - (c1_speedSlider.value + c1_attackSlider.value + c1_defenseSlider.value + c2_speedSlider.value + c2_attackSlider.value + c2_defenseSlider.value));
+        
         if (pointsLeft >= 0) {
-            doneSelecting = true;
+            Debug.Log("Points distribution done");
+            //Random rand = new Random();
+            float p = Random.Range(0f, 1f);
+
+            // Player gets first character
+            if (p < 0.5f) {
+                
+                Debug.Log("Player is Character 1"); 
+
+                PlayerPrefs.SetInt("player_speed", (int)c1_speedSlider.value);
+                PlayerPrefs.SetInt("player_attack", (int)c1_attackSlider.value);
+                PlayerPrefs.SetInt("player_defense", (int)c1_defenseSlider.value);
+
+                PlayerPrefs.SetInt("enemy_speed", (int)c2_speedSlider.value);
+                PlayerPrefs.SetInt("enemy_attack", (int)c2_attackSlider.value);
+                PlayerPrefs.SetInt("enemy_defense", (int)c2_defenseSlider.value);
+                
+            } else { // Player gets second character
+
+                Debug.Log("Player is Character 2");
+
+                PlayerPrefs.SetInt("player_speed", (int)c2_speedSlider.value);
+                PlayerPrefs.SetInt("player_attack", (int)c2_attackSlider.value);
+                PlayerPrefs.SetInt("player_defense", (int)c2_defenseSlider.value);
+
+                PlayerPrefs.SetInt("enemy_speed", (int)c1_speedSlider.value);
+                PlayerPrefs.SetInt("enemy_attack", (int)c1_attackSlider.value);
+                PlayerPrefs.SetInt("enemy_defense", (int)c1_defenseSlider.value);
+            }
         } else {
             Debug.Log("Too many points used");
         }
