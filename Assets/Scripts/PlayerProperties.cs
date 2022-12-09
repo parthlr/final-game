@@ -21,19 +21,12 @@ public class PlayerProperties : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        //health = baseHealth + PlayerPrefs.GetInt(gameObject.tag + "_health");
         health = baseHealth;
         speed = baseSpeed * (1 + (PlayerPrefs.GetInt(gameObject.tag + "_speed") / 20f));
         attack = baseAttack + PlayerPrefs.GetInt(gameObject.tag + "_attack");
         defense = baseDefense + PlayerPrefs.GetInt(gameObject.tag + "_defense");
 
         healthBar.setMaxHealth(health);
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 
     public void setPlayerHealth(int newHealth) {

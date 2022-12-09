@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class StatsSelection : MonoBehaviour
 {
@@ -13,6 +14,10 @@ public class StatsSelection : MonoBehaviour
     [SerializeField] int abilityPool = 30;
 
     [SerializeField] TextMeshProUGUI abilityPoolText;
+    [SerializeField] TextMeshProUGUI incorrectPointsText;
+
+    Color redColor;
+    Color whiteColor;
 
     // Character 1 UI
     [SerializeField] TextMeshProUGUI c1_speedValueText;
@@ -38,7 +43,13 @@ public class StatsSelection : MonoBehaviour
     void Start()
     {
         abilityPoolText.text = "Points Left: " + abilityPool;
+        incorrectPointsText.gameObject.SetActive(false);
 
+        redColor = new Color(1f, 0f, 0f, 1f);
+        whiteColor = new Color(1f, 1f, 1f, 1f);
+
+        character1.SetActive(true);
+        character2.SetActive(false);
     }
 
     // Update is called once per frame
@@ -55,6 +66,12 @@ public class StatsSelection : MonoBehaviour
         int pointsLeft = (int)(abilityPool - (c1_speedSlider.value + c1_attackSlider.value + c1_defenseSlider.value + c2_speedSlider.value + c2_attackSlider.value + c2_defenseSlider.value));
 
         abilityPoolText.text = "Points Left: " + pointsLeft;
+
+        if (pointsLeft < 0) {
+            abilityPoolText.color = redColor;
+        } else {
+            abilityPoolText.color = whiteColor;
+        }
     }
 
     public void nextButtonClicked() {
@@ -68,18 +85,17 @@ public class StatsSelection : MonoBehaviour
     }
 
     public void doneButtonClicked() {
-        Debug.Log("Done Button Clicked");
         int pointsLeft = (int)(abilityPool - (c1_speedSlider.value + c1_attackSlider.value + c1_defenseSlider.value + c2_speedSlider.value + c2_attackSlider.value + c2_defenseSlider.value));
         
         if (pointsLeft >= 0) {
-            Debug.Log("Points distribution done");
-            //Random rand = new Random();
             float p = Random.Range(0f, 1f);
 
             // Player gets first character
             if (p < 0.5f) {
                 
                 Debug.Log("Player is Character 1"); 
+
+                PlayerPrefs.SetInt("player_character", 1);
 
                 PlayerPrefs.SetInt("player_speed", (int)c1_speedSlider.value);
                 PlayerPrefs.SetInt("player_attack", (int)c1_attackSlider.value);
@@ -90,8 +106,7 @@ public class StatsSelection : MonoBehaviour
                 PlayerPrefs.SetInt("enemy_defense", (int)c2_defenseSlider.value);
                 
             } else { // Player gets second character
-
-                Debug.Log("Player is Character 2");
+                PlayerPrefs.SetInt("player_character", 2);
 
                 PlayerPrefs.SetInt("player_speed", (int)c2_speedSlider.value);
                 PlayerPrefs.SetInt("player_attack", (int)c2_attackSlider.value);
@@ -101,8 +116,10 @@ public class StatsSelection : MonoBehaviour
                 PlayerPrefs.SetInt("enemy_attack", (int)c1_attackSlider.value);
                 PlayerPrefs.SetInt("enemy_defense", (int)c1_defenseSlider.value);
             }
+
+            SceneManager.LoadScene("FightScene");
         } else {
-            Debug.Log("Too many points used");
+            incorrectPointsText.gameObject.SetActive(true);
         }
     }
 }

@@ -10,7 +10,6 @@ public class Projectile : MonoBehaviour
     void OnTriggerEnter2D(Collider2D collider) {
         if (sourceEntity.tag == "player") {
             if (collider.gameObject.tag == "enemy") {
-                Debug.Log("Enemy hit");
                 PlayerProperties player = sourceEntity.GetComponent<PlayerProperties>();
                 PlayerProperties enemy = collider.gameObject.GetComponent<PlayerProperties>();
 
@@ -21,7 +20,6 @@ public class Projectile : MonoBehaviour
             }
         } else if (sourceEntity.tag == "enemy") {
             if (collider.gameObject.tag == "player") {
-                Debug.Log("Player hit");
                 PlayerProperties player = collider.gameObject.GetComponent<PlayerProperties>();
                 PlayerProperties enemy = sourceEntity.GetComponent<PlayerProperties>();
 
