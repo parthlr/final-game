@@ -5,6 +5,8 @@ using UnityEngine;
 public class PlayerControls : MonoBehaviour
 {
 
+    [SerializeField] PlayerProperties properties;
+
     [SerializeField] float moveSpeed = 5f;
 
     [SerializeField] GameObject projectile;
@@ -36,6 +38,7 @@ public class PlayerControls : MonoBehaviour
             Debug.Log("X: " + worldMousePosition.x + " Y: " + worldMousePosition.y);
 
             GameObject newProjectile = Instantiate(projectile, transform.position, Quaternion.identity);
+            newProjectile.GetComponent<Projectile>().sourceEntity = gameObject;
 
             newProjectile.GetComponent<Rigidbody2D>().AddForce(direction.normalized * projectileForce);
 
@@ -44,7 +47,7 @@ public class PlayerControls : MonoBehaviour
     }
 
     void FixedUpdate() {
-        rb.MovePosition(rb.position + movementDirection * moveSpeed * Time.fixedDeltaTime);
+        rb.MovePosition(rb.position + movementDirection * properties.speed * Time.fixedDeltaTime);
     }
 
 }
