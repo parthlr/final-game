@@ -305,9 +305,10 @@ GameObject:
   m_Component:
   - component: {fileID: 355403881}
   - component: {fileID: 355403880}
-  - component: {fileID: 355403883}
   - component: {fileID: 355403879}
   - component: {fileID: 355403882}
+  - component: {fileID: 355403883}
+  - component: {fileID: 355403884}
   m_Layer: 7
   m_Name: enemy
   m_TagString: enemy
@@ -442,7 +443,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   baseHealth: 100
-  baseSpeed: 10
+  baseSpeed: 1
   baseAttack: 10
   baseDefense: 3
   healthBar: {fileID: 296251092}
@@ -450,6 +451,23 @@ MonoBehaviour:
   speed: 0
   attack: 0
   defense: 0
+--- !u!114 &355403884
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 355403878}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e5f54475ed20d6843bbedda4cf9038cd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player: {fileID: 1474802098}
+  playerWeight: 10
+  projectile: {fileID: 1908458680764213811, guid: 4d774916b1b20054280ea2920bdb91b5, type: 3}
+  projectileForce: 500
+  timeBetweenShots: 0.333333
 --- !u!1 &513067419
 GameObject:
   m_ObjectHideFlags: 0
